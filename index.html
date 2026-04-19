@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>營養標示列印系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <span class="topbar-title">🏷 營養標示列印系統</span>
+    <div class="topbar-nav">
+      <button class="nav-btn active" onclick="showView('pos')">列印</button>
+      <button class="nav-btn" onclick="showView('admin')">商品管理</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- POS View -->
+    <div id="pos-view">
+      <!-- Products panel: categories on top, grid below -->
+      <div class="product-panel">
+        <div class="cat-panel" id="cat-panel"></div>
+        <div class="search-bar">
+          <input class="search-input" id="search-input" type="text" placeholder="搜尋商品名稱或編號..." oninput="renderProducts()">
+        </div>
+        <div class="product-grid" id="product-grid"></div>
+      </div>
+
+      <!-- Print Panel -->
+      <div class="print-panel">
+        <div class="print-header"><h3>列印設定</h3></div>
+        <div class="print-body">
+          <div class="selected-product-info" id="selected-info">
+            <div style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px 0;">請先選擇商品</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">紙張尺寸</label>
+            <div class="label-type-grid" id="paper-grid"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">標籤尺寸</label>
+            <div class="label-type-grid">
+              <button class="label-type-btn active" id="btn-large" onclick="selectSize('large')">
+                <span class="size-name">大標</span>
+                <span class="size-dim">50 × 50 mm</span>
+              </button>
+              <button class="label-type-btn" id="btn-small" onclick="selectSize('small')">
+                <span class="size-name">小標</span>
+                <span class="size-dim">25 × 30 mm</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">列印張數</label>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="adjustQty(-1)">−</button>
+              <input class="qty-input" id="qty-input" type="number" value="1" min="1" max="999">
+              <button class="qty-btn" onclick="adjustQty(1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="print-footer">
+          <button class="print-btn" id="print-btn" onclick="doPrint()" disabled>列印</button>
+          <button class="preview-btn" id="preview-btn" onclick="doPreview()" disabled>預覽標籤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin View -->
+    <div id="admin-view">
+      <div class="admin-toolbar">
+        <input class="admin-search" id="admin-search" type="text" placeholder="搜尋商品..." oninput="renderAdminTable()">
+        <div class="admin-spacer"></div>
+        <button class="btn" onclick="openUploadModal()">⬆ 上傳 Excel</button>
+        <button class="btn" onclick="exportExcel()">⬇ 下載 Excel</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="data-table" id="admin-table">
+          <thead>
+            <tr>
+              <th>編號</th>
+              <th>商品名稱</th>
+              <th>副名稱</th>
+              <th>類別</th>
+              <th>條碼格式</th>
+              <th>條碼內容</th>
+              <th>標籤格式</th>
+              <th>保存天數</th>
+              <th>淨重(g)</th>
+              <th>現行單位</th>
+              <th>扣重(Kg)</th>
+              <th>成分</th>
+              <th>過敏原</th>
+              <th>保存方式</th>
+              <th>豬肉原產地</th>
+              <th>每份重量(g)</th>
+              <th>本包裝含幾份</th>
+              <th>熱量(每份)</th>
+              <th>蛋白質(每份)</th>
+              <th>脂肪(每份)</th>
+              <th>飽和脂肪(每份)</th>
+              <th>反式脂肪(每份)</th>
+              <th>碳水化合物(每份)</th>
+              <th>糖(每份)</th>
+              <th>鈉(每份)</th>
+              <th>每包裝份數</th>
+              <th>熱量(每100克)</th>
+              <th>蛋白質(每100克)</th>
+              <th>脂肪(每100克)</th>
+              <th>飽和脂肪(每100克)</th>
+              <th>反式脂肪(每100克)</th>
+              <th>碳水化合物(每100克)</th>
+              <th>糖(每100克)</th>
+              <th>鈉(每100克)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="edit-modal-title">編輯商品</span>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid" id="edit-form-grid"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeEditModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveEdit()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <span class="modal-title">上傳 Excel</span>
+      <button class="modal-close" onclick="closeUploadModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()"
+           ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+        <div class="upload-icon">📊</div>
+        <div class="upload-text">點擊或拖曳 Excel 檔案至此</div>
+        <div class="upload-sub">.xlsx 格式，欄位需與系統相符</div>
+      </div>
+      <input type="file" id="file-input" accept=".xlsx" style="display:none" onchange="handleFileInput(event)">
+      <div id="upload-status" style="margin-top:12px;font-size:13px;color:var(--text-secondary);"></div>
+      <div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:var(--radius);font-size:12px;color:var(--text-muted);line-height:1.6;">
+        ⚠️ 上傳後將<strong>完全取代</strong>現有資料。<br>建議先下載備份再上傳。
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeUploadModal()">取消</button>
+      <button class="btn btn-primary" id="confirm-upload-btn" onclick="confirmUpload()" disabled>確認上傳</button>
+    </div>
+  </div>
+</div>
+
+<!-- Preview Overlay -->
+<div class="preview-overlay" id="preview-overlay">
+  <button class="preview-close" onclick="closePreview()" style="position:fixed;top:20px;right:20px;">✕</button>
+  <div class="preview-container" id="preview-container">
+    <div class="preview-label" id="preview-label"></div>
+    <div id="preview-labels-wrap"></div>
+    <div class="preview-actions">
+      <button class="btn btn-primary" onclick="doPrintFromPreview()">🖨 列印</button>
+      <button class="btn" onclick="closePreview()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Hidden print area -->
+<div id="print-area" style="position:fixed;top:0;left:0;visibility:hidden;pointer-events:none;"></div>
+
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="label.js"></script>
+<script src="print.js"></script>
+<script src="admin.js"></script>
+<script src="upload.js"></script>
+</body>
+</html>
