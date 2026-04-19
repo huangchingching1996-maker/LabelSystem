@@ -3,6 +3,7 @@ let products = [];
 let selectedCat = '全部';
 let selectedProduct = null;
 let selectedSize = 'large';
+let selectedDate = new Date().toISOString().slice(0, 10);
 let editIdx = null;
 let pendingUploadData = null;
 
@@ -12,6 +13,7 @@ function init() {
   if(ver !== '2') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','2'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
+  document.getElementById('start-date').value = selectedDate;
   renderCats();
   renderProducts();
   renderAdminTable();

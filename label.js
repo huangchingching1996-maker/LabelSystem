@@ -13,7 +13,7 @@ function fullEan8(code) {
 // ── Expiry date ──
 function expiryDate(days) {
   if(!days) return '';
-  const d = new Date();
+  const d = selectedDate ? new Date(selectedDate + 'T00:00:00') : new Date();
   d.setDate(d.getDate() + Number(days));
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
