@@ -28,7 +28,7 @@ function doPreview() {
   const previewCount = Math.min(qty, 3);
   const labelsHTML = Array(previewCount).fill(0).map(() =>
     `<div style="width:${scaledW}px;height:${scaledH}px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
-      <div style="transform:scale(${scale});transform-origin:top left;">
+      <div style="display:inline-block;transform:scale(${scale});transform-origin:top left;">
         <div class="label-wrapper">${single}</div>
       </div>
     </div>`
