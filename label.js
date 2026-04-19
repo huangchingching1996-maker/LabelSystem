@@ -10,6 +10,36 @@ function fullEan8(code) {
   return s + ean8Check(s);
 }
 
+// ── EAN-13 helpers ──
+function ean13Check(twelve) {
+  const d = twelve.toString().padStart(12,'0').slice(0,12).split('').map(Number);
+  const sum = d.reduce((acc, v, i) => acc + v * (i % 2 === 0 ? 1 : 3), 0);
+  return (10 - sum % 10) % 10;
+}
+function fullEan13(code) {
+  const s = code.toString().padStart(12,'0').slice(0,12);
+  return s + ean13Check(s);
+}
+function ean13SVG(code13, width, height) {
+  const L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+  const G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+  const R = ['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+  const PARITY = ['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+  const d = code13.split('').map(Number);
+  const parity = PARITY[d[0]];
+  let bars = '101';
+  for(let i=0;i<6;i++) bars += parity[i]==='L' ? L[d[i+1]] : G[d[i+1]];
+  bars += '01010';
+  for(let i=7;i<13;i++) bars += R[d[i]];
+  bars += '101';
+  const bw = width / bars.length;
+  let rects = '';
+  for(let i=0;i<bars.length;i++){
+    if(bars[i]==='1') rects += `<rect x="${(i*bw).toFixed(2)}" y="0" width="${(bw+0.1).toFixed(2)}" height="${height}" fill="black"/>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${rects}</svg>`;
+}
+
 // ── Expiry date ──
 function expiryDate(days) {
   if(!days) return '';
@@ -44,12 +74,19 @@ function buildLabelHTML(product, size) {
   const p = product;
   const showExpiry = document.getElementById('show-expiry')?.checked ?? true;
 
+  const isEAN13 = p.條碼格式 === 'EAN13';
+
   // ── Small label: 30×25mm ──
   if(size === 'small') {
-    const bc7 = (p.條碼內容||'').toString().padStart(7,'0').slice(0,7);
-    const bc8 = fullEan8(bc7);
+    let bcCode, svg;
+    if(isEAN13) {
+      bcCode = fullEan13((p.條碼內容||'').toString());
+      svg = ean13SVG(bcCode, 110, 20);
+    } else {
+      bcCode = fullEan8((p.條碼內容||'').toString());
+      svg = ean8SVG(bcCode, 100, 20);
+    }
     const expiry = expiryDate(p.保存天數);
-    const svg = ean8SVG(bc8, 100, 20);
     return `<div class="label-small">
       <div class="sl-text">
         <div class="sl-name">${p.商品名稱}</div>
@@ -61,16 +98,21 @@ function buildLabelHTML(product, size) {
       </div>
       <div class="sl-barcode-wrap">
         ${svg}
-        <div class="sl-barcode-num">${bc8}</div>
+        <div class="sl-barcode-num">${bcCode}</div>
       </div>
     </div>`;
   }
 
   // ── Large label: 55×55mm = 208×208px ──
-  const bc7l = (p.條碼內容||'').toString().padStart(7,'0').slice(0,7);
-  const bc8l = fullEan8(bc7l);
+  let bcCodeL, svgL;
+  if(isEAN13) {
+    bcCodeL = fullEan13((p.條碼內容||'').toString());
+    svgL = ean13SVG(bcCodeL, 160, 18);
+  } else {
+    bcCodeL = fullEan8((p.條碼內容||'').toString());
+    svgL = ean8SVG(bcCodeL, 120, 18);
+  }
   const expiryL = expiryDate(p.保存天數);
-  const svgL = ean8SVG(bc8l, 120, 18);
 
   const ntRows = [
     {label:'熱量',      sKey:'熱量(每份)',         hKey:'熱量(每100克)',        unit:'大卡',  indent:false},
@@ -130,7 +172,7 @@ function buildLabelHTML(product, size) {
     </div>
     <div class="ll-barcode-wrap">
       ${svgL}
-      <div class="ll-barcode-num">${bc8l}</div>
+      <div class="ll-barcode-num">${bcCodeL}</div>
     </div>
   </div>`;
 }
