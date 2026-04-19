@@ -4,6 +4,7 @@ let selectedCat = '全部';
 let selectedProduct = null;
 let selectedSize = 'large';
 let selectedDate = new Date().toISOString().slice(0, 10);
+let showExpiry = true;
 let editIdx = null;
 let pendingUploadData = null;
 
@@ -115,6 +116,10 @@ function renderPrintPanel() {
 
 function setStartDate(val) {
   selectedDate = val;
+}
+
+function setShowExpiry(val) {
+  showExpiry = val;
 }
 
 // ── Size & Qty ──
