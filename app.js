@@ -113,6 +113,10 @@ function renderPrintPanel() {
   previewBtn.disabled = false;
 }
 
+function setStartDate(val) {
+  selectedDate = val;
+}
+
 // ── Size & Qty ──
 function selectSize(s) {
   selectedSize = s;
