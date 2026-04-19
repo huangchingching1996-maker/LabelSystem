@@ -21,7 +21,6 @@ function renderAdminTable() {
       <td><span class="tag tag-cat">${p.類別||''}</span></td>
       ${td(p.條碼格式, true)}
       ${td(p.條碼內容, true)}
-      ${td(p.標籤格式, true)}
       ${td(p.保存天數)}
       ${td(p['淨重(g)'])}
       ${td(p.現行單位)}
