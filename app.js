@@ -14,7 +14,14 @@ function init() {
   if(ver !== '2') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','2'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
-  document.getElementById('start-date').value = selectedDate;
+  const dateInput = document.getElementById('start-date');
+  dateInput.value = selectedDate;
+  dateInput.addEventListener('input',  e => { selectedDate = e.target.value; });
+  dateInput.addEventListener('change', e => { selectedDate = e.target.value; });
+
+  const expiryToggle = document.getElementById('show-expiry');
+  expiryToggle.addEventListener('change', e => { showExpiry = e.target.checked; });
+
   renderCats();
   renderProducts();
   renderAdminTable();
@@ -112,14 +119,6 @@ function renderPrintPanel() {
   `;
   printBtn.disabled = false;
   previewBtn.disabled = false;
-}
-
-function setStartDate(val) {
-  selectedDate = val;
-}
-
-function setShowExpiry(val) {
-  showExpiry = val;
 }
 
 // ── Size & Qty ──
