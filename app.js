@@ -12,6 +12,15 @@ function init() {
   if(ver !== '2') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','2'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
+  // migrate old numeric 條碼格式 values to string
+  let migrated = false;
+  products.forEach(p => {
+    if(p.條碼格式 !== 'EAN8' && p.條碼格式 !== 'EAN13') {
+      p.條碼格式 = 'EAN8';
+      migrated = true;
+    }
+  });
+  if(migrated) saveProducts();
   const now = new Date();
   document.getElementById('start-date').value =
     `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
