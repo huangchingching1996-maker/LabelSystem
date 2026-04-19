@@ -7,7 +7,7 @@ const CATS = ['全部', '傳統糕點', '中式餅點', '喜餅', '禮盒', '糖
 const FIELDS = [
   {key:'商品編號',label:'商品編號',type:'number'},
   {key:'商品名稱',label:'商品名稱',type:'text'},
-  {key:'商品名稱(副)',label:'副名稱',type:'text'},
+  {key:'商品名稱(副)',label:'葷素別',type:'text'},
   {key:'類別',label:'類別',type:'select',options:['傳統糕點','中式餅點','喜餅','禮盒','糖果零食','冷藏點心','其他']},
   {key:'條碼內容',label:'條碼內容',type:'text'},
   {key:'保存天數',label:'保存天數',type:'number'},
