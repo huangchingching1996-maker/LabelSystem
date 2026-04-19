@@ -3,8 +3,6 @@ let products = [];
 let selectedCat = '全部';
 let selectedProduct = null;
 let selectedSize = 'large';
-let selectedDate = new Date().toISOString().slice(0, 10);
-let showExpiry = true;
 let editIdx = null;
 let pendingUploadData = null;
 
@@ -14,13 +12,9 @@ function init() {
   if(ver !== '2') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','2'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
-  const dateInput = document.getElementById('start-date');
-  dateInput.value = selectedDate;
-  dateInput.addEventListener('input',  e => { selectedDate = e.target.value; });
-  dateInput.addEventListener('change', e => { selectedDate = e.target.value; });
-
-  const expiryToggle = document.getElementById('show-expiry');
-  expiryToggle.addEventListener('change', e => { showExpiry = e.target.checked; });
+  const now = new Date();
+  document.getElementById('start-date').value =
+    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 
   renderCats();
   renderProducts();

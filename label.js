@@ -13,7 +13,8 @@ function fullEan8(code) {
 // ── Expiry date ──
 function expiryDate(days) {
   if(!days) return '';
-  const d = selectedDate ? new Date(selectedDate + 'T00:00:00') : new Date();
+  const dateVal = document.getElementById('start-date')?.value;
+  const d = dateVal ? new Date(dateVal + 'T00:00:00') : new Date();
   d.setDate(d.getDate() + Number(days));
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
@@ -41,6 +42,7 @@ function ean8SVG(code8, width, height) {
 
 function buildLabelHTML(product, size) {
   const p = product;
+  const showExpiry = document.getElementById('show-expiry')?.checked ?? true;
 
   // ── Small label: 30×25mm ──
   if(size === 'small') {
