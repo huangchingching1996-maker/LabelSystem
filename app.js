@@ -3,7 +3,6 @@ let products = [];
 let selectedCat = '全部';
 let selectedProduct = null;
 let selectedSize = 'large';
-let selectedPaper = 'A4';
 let editIdx = null;
 let pendingUploadData = null;
 
@@ -16,7 +15,6 @@ function init() {
   renderCats();
   renderProducts();
   renderAdminTable();
-  renderPaperGrid();
 }
 
 function saveProducts() {
@@ -111,21 +109,6 @@ function renderPrintPanel() {
   `;
   printBtn.disabled = false;
   previewBtn.disabled = false;
-}
-
-// ── Paper ──
-function renderPaperGrid() {
-  document.getElementById('paper-grid').innerHTML = PAPERS.map(p =>
-    `<button class="label-type-btn ${p.id===selectedPaper?'active':''}" onclick="selectPaper('${p.id}')">
-      <span class="size-name">${p.name}</span>
-      <span class="size-dim">${p.w} × ${p.h} mm</span>
-    </button>`
-  ).join('');
-}
-
-function selectPaper(id) {
-  selectedPaper = id;
-  renderPaperGrid();
 }
 
 // ── Size & Qty ──

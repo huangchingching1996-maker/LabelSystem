@@ -909,8 +909,8 @@ body {
     display: flex !important;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: 4mm;
-    padding: 4mm;
+    gap: 0;
+    padding: 0;
     background: white;
     width: 100%;
     box-sizing: border-box;
