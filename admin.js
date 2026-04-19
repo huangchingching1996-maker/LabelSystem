@@ -23,8 +23,6 @@ function renderAdminTable() {
       ${td(p.條碼內容, true)}
       ${td(p.保存天數)}
       ${td(p['淨重(g)'])}
-      ${td(p.現行單位)}
-      ${td(p['扣重(Kg)'])}
       ${td(p.成分, false, false, true)}
       ${td(p.過敏原, false, false, true)}
       ${td(p.保存方式, false, false, true)}
