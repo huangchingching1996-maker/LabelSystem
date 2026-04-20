@@ -1,7 +1,7 @@
 const PX_PER_MM = 96 / 25.4;
 const LABEL_MM = {
   large: { w: 55, h: 55 },
-  small: { w: 35, h: 25 }, // preview uses landscape dimensions
+  small: { w: 35, h: 25 },
 };
 
 // ── Preview ──
@@ -49,17 +49,10 @@ function closePreview() {
 
 // ── Print ──
 function setPaperStyle() {
-  // Small label: send portrait page (25×35mm) so printer doesn't rotate.
-  // The label content is pre-rotated 90° in CSS to appear landscape when printed.
-  const pageSize = selectedSize === 'small' ? '25mm 35mm' : '55mm 55mm';
+  const mm = LABEL_MM[selectedSize];
   let s = document.getElementById('_page_style');
   if(!s) { s = document.createElement('style'); s.id = '_page_style'; document.head.appendChild(s); }
-  s.textContent = `@media print { @page { size: ${pageSize}; margin: 0; } }`;
-}
-
-function buildWrapperHTML(single) {
-  const cls = selectedSize === 'small' ? 'label-wrapper label-wrapper-small' : 'label-wrapper';
-  return `<div class="${cls}">${single}</div>`;
+  s.textContent = `@media print { @page { size: ${mm.w}mm ${mm.h}mm; margin: 0; } }`;
 }
 
 function doPrint() {
@@ -67,7 +60,7 @@ function doPrint() {
   const qty    = parseInt(document.getElementById('qty-input').value) || 1;
   const area   = document.getElementById('print-area');
   const single = buildLabelHTML(selectedProduct, selectedSize);
-  area.innerHTML = Array(qty).fill(buildWrapperHTML(single)).join('');
+  area.innerHTML = Array(qty).fill(`<div class="label-wrapper">${single}</div>`).join('');
   setPaperStyle();
   closePreview();
   setTimeout(() => {
@@ -81,7 +74,7 @@ function doPrintFromPreview() {
   const qty    = parseInt(document.getElementById('qty-input').value) || 1;
   const area   = document.getElementById('print-area');
   const single = buildLabelHTML(selectedProduct, selectedSize);
-  area.innerHTML = Array(qty).fill(buildWrapperHTML(single)).join('');
+  area.innerHTML = Array(qty).fill(`<div class="label-wrapper">${single}</div>`).join('');
   setPaperStyle();
   window.print();
   setTimeout(() => { area.innerHTML = ''; }, 1000);

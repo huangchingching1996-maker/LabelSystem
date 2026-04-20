@@ -923,21 +923,6 @@ body {
   }
   #print-area * { visibility: visible !important; }
   .label-wrapper { box-shadow: none !important; page-break-inside: avoid; }
-
-  /* Small label: page is portrait 25×35mm; rotate content 90° CW so it prints landscape */
-  .label-wrapper-small {
-    width: 95px;
-    height: 132px;
-    position: relative;
-    overflow: hidden;
-  }
-  .label-wrapper-small .label-small {
-    position: absolute;
-    top: 0;
-    left: 95px;
-    transform: rotate(90deg);
-    transform-origin: 0 0;
-  }
 }
 
 /* ── Responsive (mobile) ── */
