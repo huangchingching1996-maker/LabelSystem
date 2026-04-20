@@ -701,10 +701,10 @@ body {
   box-sizing: border-box;
 }
 
-/* Small label: 25mm x 30mm = 94.5px x 113.4px at 96dpi (portrait) */
+/* Small label: 35mm x 25mm = 132px x 95px at 96dpi (landscape) */
 .label-small {
-  width: 95px;
-  height: 114px;
+  width: 132px;
+  height: 95px;
   padding: 4px 6px;
   font-family: 'Noto Sans TC', sans-serif;
   display: flex;
@@ -737,6 +737,7 @@ body {
   font-size: 11px;
   color: #000;
   line-height: 1.45;
+  white-space: nowrap;
 }
 .label-small .sl-barcode-wrap {
   display: flex;

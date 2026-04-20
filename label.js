@@ -81,10 +81,10 @@ function buildLabelHTML(product, size) {
     let bcCode, svg;
     if(isEAN13) {
       bcCode = fullEan13((p.條碼內容||'').toString());
-      svg = ean13SVG(bcCode, 87, 20);
+      svg = ean13SVG(bcCode, 115, 20);
     } else {
       bcCode = fullEan8((p.條碼內容||'').toString());
-      svg = ean8SVG(bcCode, 83, 20);
+      svg = ean8SVG(bcCode, 100, 20);
     }
     const expiry = expiryDate(p.保存天數);
     return `<div class="label-small">
