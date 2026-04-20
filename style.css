@@ -767,8 +767,8 @@ body {
   align-items: baseline;
   margin-bottom: 2px;
 }
-.ll-name { font-size: 12px; font-weight: 400; color: #000; line-height: 1.2; }
-.ll-sub  { font-size: 9px; color: #000; font-weight: 400; }
+.ll-name { font-size: 13px; font-weight: 400; color: #000; line-height: 1.2; }
+.ll-sub  { font-size: 10px; color: #000; font-weight: 400; }
 .ll-body { display: flex; gap: 3px; flex: 1; min-height: 0; overflow: hidden; }
 
 /* Left column */
@@ -776,9 +776,9 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: 7px;
+  font-size: 7.5px;
   color: #000;
-  line-height: 1.45;
+  line-height: 1.4;
   min-width: 0;
   overflow: hidden;
 }
@@ -796,17 +796,17 @@ body {
   border: 1px solid #000;
 }
 .ll-nt-title {
-  font-size: 7.5px;
+  font-size: 8px;
   font-weight: 400;
   text-align: center;
   letter-spacing: 2.5px;
-  padding: 1.5px 2px;
+  padding: 1px 2px;
   border-bottom: 1px solid #000;
 }
 .ll-nt-serving {
-  font-size: 6.5px;
+  font-size: 7.5px;
   padding: 1px 3px;
-  line-height: 1.5;
+  line-height: 1.4;
   border-bottom: 1px solid #000;
   white-space: nowrap;
 }
@@ -818,17 +818,17 @@ body {
 .ll-nt-table tr { border-bottom: none; }
 .ll-nt-table .nt-header-row { border-bottom: 0.5px solid #000; }
 .ll-nt-table th {
-  font-size: 6.5px;
+  font-size: 7.5px;
   font-weight: 400;
   text-align: center;
-  padding: 1px 2px;
+  padding: 0.5px 2px;
   line-height: 1.3;
   white-space: nowrap;
 }
 .ll-nt-table .nt-header-row { border-bottom: 0.5px solid #000; }
 .ll-nt-table td {
-  font-size: 6.5px;
-  padding: 1px 2px;
+  font-size: 7.5px;
+  padding: 0.5px 2px;
   line-height: 1.3;
   vertical-align: middle;
   white-space: nowrap;
@@ -847,7 +847,7 @@ body {
 }
 .ll-barcode-num {
   font-family: 'DM Mono', monospace;
-  font-size: 7px;
+  font-size: 7.5px;
   letter-spacing: 1.5px;
   margin-top: 1px;
 }
