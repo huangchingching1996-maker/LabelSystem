@@ -720,7 +720,7 @@ body {
   flex-direction: column;
 }
 .label-small .sl-name {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 900;
   line-height: 1.2;
   color: #000;
@@ -729,14 +729,14 @@ body {
   text-overflow: ellipsis;
 }
 .label-small .sl-sub {
-  font-size: 11px;
+  font-size: 9px;
   color: #333;
   line-height: 1.3;
 }
 .label-small .sl-info {
-  font-size: 11px;
+  font-size: 9px;
   color: #000;
-  line-height: 1.45;
+  line-height: 1.35;
   white-space: nowrap;
 }
 .label-small .sl-barcode-wrap {
@@ -789,7 +789,7 @@ body {
 
 /* Right column — nutrition */
 .ll-right {
-  width: 118px;
+  width: 113px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
