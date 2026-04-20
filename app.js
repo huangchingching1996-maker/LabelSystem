@@ -129,6 +129,7 @@ function selectSize(s) {
   selectedSize = s;
   document.getElementById('btn-large').classList.toggle('active', s==='large');
   document.getElementById('btn-small').classList.toggle('active', s==='small');
+  document.getElementById('small-print-hint').style.display = s==='small' ? 'block' : 'none';
 }
 
 function adjustQty(d) {
