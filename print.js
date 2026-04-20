@@ -1,7 +1,7 @@
 const PX_PER_MM = 96 / 25.4;
 const LABEL_MM = {
   large: { w: 55, h: 55 },
-  small: { w: 35, h: 25 },
+  small: { w: 25, h: 35 },
 };
 
 // ── Preview ──

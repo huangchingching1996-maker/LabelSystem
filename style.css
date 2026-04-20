@@ -701,10 +701,10 @@ body {
   box-sizing: border-box;
 }
 
-/* Small label: 35mm x 25mm = 132px x 95px at 96dpi (landscape) */
+/* Small label: 25mm x 35mm = 95px x 132px at 96dpi (portrait) */
 .label-small {
-  width: 132px;
-  height: 95px;
+  width: 95px;
+  height: 132px;
   padding: 4px 6px;
   font-family: 'Noto Sans TC', sans-serif;
   display: flex;
