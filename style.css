@@ -814,7 +814,13 @@ body {
   width: 100%;
   border-collapse: collapse;
   flex: 1;
+  table-layout: fixed;
 }
+.ll-nt-table th:nth-child(1),
+.ll-nt-table td:nth-child(1) { width: 42px; }
+.ll-nt-table th:nth-child(2),
+.ll-nt-table td:nth-child(2) { width: 35px; }
+/* nth-child(3) gets remaining ~39px automatically */
 .ll-nt-table tr { border-bottom: none; }
 .ll-nt-table .nt-header-row { border-bottom: 0.5px solid #000; }
 .ll-nt-table th {
