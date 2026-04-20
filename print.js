@@ -49,18 +49,11 @@ function closePreview() {
 
 // ── Print ──
 function setPaperStyle() {
-  // Small label stock is loaded with 25mm across the print head, 35mm in feed direction.
-  // The printer treats this as portrait (25×35mm). Send portrait @page so it prints without rotation.
-  // Content is pre-rotated 90° CW in CSS so the physical label appears landscape.
-  const pageSize = selectedSize === 'small' ? '25mm 35mm' : '55mm 55mm';
+  const mm = LABEL_MM[selectedSize];
   let s = document.getElementById('_page_style');
   if(!s) { s = document.createElement('style'); s.id = '_page_style'; document.head.appendChild(s); }
-  s.textContent = `@media print { @page { size: ${pageSize}; margin: 0; } }`;
-}
-
-function buildWrapperHTML(single) {
-  const cls = selectedSize === 'small' ? 'label-wrapper label-wrapper-small' : 'label-wrapper';
-  return `<div class="${cls}">${single}</div>`;
+  const orient = (selectedSize === 'small') ? ' landscape' : '';
+  s.textContent = `@media print { @page { size: ${mm.w}mm ${mm.h}mm${orient}; margin: 0; } }`;
 }
 
 function doPrint() {
