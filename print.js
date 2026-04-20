@@ -61,7 +61,7 @@ function doPrint() {
   const qty    = parseInt(document.getElementById('qty-input').value) || 1;
   const area   = document.getElementById('print-area');
   const single = buildLabelHTML(selectedProduct, selectedSize);
-  area.innerHTML = Array(qty).fill(buildWrapperHTML(single)).join('');
+  area.innerHTML = Array(qty).fill(`<div class="label-wrapper">${single}</div>`).join('');
   setPaperStyle();
   closePreview();
   setTimeout(() => {
@@ -75,7 +75,7 @@ function doPrintFromPreview() {
   const qty    = parseInt(document.getElementById('qty-input').value) || 1;
   const area   = document.getElementById('print-area');
   const single = buildLabelHTML(selectedProduct, selectedSize);
-  area.innerHTML = Array(qty).fill(buildWrapperHTML(single)).join('');
+  area.innerHTML = Array(qty).fill(`<div class="label-wrapper">${single}</div>`).join('');
   setPaperStyle();
   window.print();
   setTimeout(() => { area.innerHTML = ''; }, 1000);
