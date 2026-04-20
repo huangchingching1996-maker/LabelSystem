@@ -701,10 +701,10 @@ body {
   box-sizing: border-box;
 }
 
-/* Small label: 25mm x 35mm = 95px x 132px at 96dpi (portrait) */
+/* Small label: 35mm x 25mm = 132px x 95px at 96dpi (landscape) */
 .label-small {
-  width: 95px;
-  height: 132px;
+  width: 132px;
+  height: 95px;
   padding: 4px 6px;
   font-family: 'Noto Sans TC', sans-serif;
   display: flex;
@@ -923,6 +923,21 @@ body {
   }
   #print-area * { visibility: visible !important; }
   .label-wrapper { box-shadow: none !important; page-break-inside: avoid; }
+
+  /* Small label: page is portrait 25×35mm; rotate content 90° CW so it prints landscape */
+  .label-wrapper-small {
+    width: 95px;
+    height: 132px;
+    position: relative;
+    overflow: hidden;
+  }
+  .label-wrapper-small .label-small {
+    position: absolute;
+    top: 0;
+    left: 95px;
+    transform: rotate(90deg);
+    transform-origin: 0 0;
+  }
 }
 
 /* ── Responsive (mobile) ── */
