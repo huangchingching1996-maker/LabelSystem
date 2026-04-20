@@ -701,10 +701,10 @@ body {
   box-sizing: border-box;
 }
 
-/* Small label: 35mm x 25mm = 132px x 95px at 96dpi (landscape) */
+/* Small label: 35mm x 25mm = 132px x 94px at 96dpi (landscape, 94px < 94.49px threshold) */
 .label-small {
   width: 132px;
-  height: 95px;
+  height: 94px;
   padding: 4px 6px;
   font-family: 'Noto Sans TC', sans-serif;
   display: flex;
@@ -924,23 +924,6 @@ body {
   #print-area * { visibility: visible !important; }
   .label-wrapper { box-shadow: none !important; page-break-inside: avoid; }
 
-  /* Small label: @page is portrait 25×35mm (matches printer's feed direction).
-     Rotate content 90° CW so after printing it appears landscape on the physical label.
-     label-small is 132×95px. Rotated CW around top-left with left offset = 95px
-     maps it exactly into the 95×132 portrait page area. */
-  .label-wrapper-small {
-    width: 95px;
-    height: 132px;
-    position: relative;
-    overflow: hidden;
-  }
-  .label-wrapper-small .label-small {
-    position: absolute;
-    top: 0;
-    left: 95px;
-    transform: rotate(90deg);
-    transform-origin: 0 0;
-  }
 }
 
 /* ── Responsive (mobile) ── */
