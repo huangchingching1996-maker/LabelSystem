@@ -737,7 +737,6 @@ body {
   font-size: 11px;
   color: #000;
   line-height: 1.45;
-  white-space: nowrap;
 }
 .label-small .sl-barcode-wrap {
   display: flex;
