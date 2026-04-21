@@ -39,12 +39,13 @@ async function processUploadFile(file) {
     const ws = wb.Sheets[wb.SheetNames[0]];
     const data = XLSX.utils.sheet_to_json(ws, {defval:null});
 
-    // Auto-categorize if no category column
+    const validKeys = new Set(FIELDS.map(f => f.key));
     data.forEach(row => {
       if(!row.類別) row.類別 = '其他';
-      if(row.條碼內容 && !String(row.條碼內容).startsWith('00')) {
-        row.條碼內容 = '00' + row.條碼內容;
-      }
+      // migrate old key name
+      if('商品名稱(副)' in row) { row['葷素別'] = row['商品名稱(副)']; delete row['商品名稱(副)']; }
+      // strip unknown fields
+      Object.keys(row).forEach(k => { if(!validKeys.has(k)) delete row[k]; });
     });
 
     pendingUploadData = data;
@@ -70,7 +71,12 @@ function confirmUpload() {
 async function exportExcel() {
   try {
     const XLSX = await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/xlsx.mjs');
-    const ws = XLSX.utils.json_to_sheet(products);
+    const exportData = products.map(p => {
+      const row = {};
+      FIELDS.forEach(f => { row[f.key] = p[f.key] ?? null; });
+      return row;
+    });
+    const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '商品資料');
     XLSX.writeFile(wb, '商品資料_export.xlsx');

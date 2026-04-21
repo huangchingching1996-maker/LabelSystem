@@ -90,7 +90,7 @@ function buildLabelHTML(product, size) {
     return `<div class="label-small">
       <div class="sl-text">
         <div class="sl-name">${p.商品名稱}</div>
-        <div class="sl-sub">${p['商品名稱(副)']||''}</div>
+        <div class="sl-sub">${p['葷素別']||''}</div>
         <div class="sl-info">${p.保存方式||''}</div>
         <div class="sl-info">保存天數：${p.保存天數||''}&nbsp;&nbsp;天</div>
         ${showExpiry ? `<div class="sl-info">有效日期：${expiry}</div>` : `<div class="sl-info"></div>`}
@@ -141,7 +141,7 @@ function buildLabelHTML(product, size) {
   return `<div class="label-large" style="width:208px;height:208px;padding:8px 6px 4px 6px;">
     <div class="ll-header">
       <div class="ll-name">${p.商品名稱}</div>
-      <div class="ll-sub">${p['商品名稱(副)']||''}</div>
+      <div class="ll-sub">${p['葷素別']||''}</div>
     </div>
     <div class="ll-body">
       <div class="ll-left">

@@ -12,13 +12,11 @@ function init() {
   if(ver !== '3') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','3'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
-  // migrate old numeric 條碼格式 values to string
   let migrated = false;
   products.forEach(p => {
-    if(p.條碼格式 !== 'EAN8' && p.條碼格式 !== 'EAN13') {
-      p.條碼格式 = 'EAN8';
-      migrated = true;
-    }
+    if(p.條碼格式 !== 'EAN8' && p.條碼格式 !== 'EAN13') { p.條碼格式 = 'EAN8'; migrated = true; }
+    if('商品名稱(副)' in p) { p['葷素別'] = p['商品名稱(副)']; delete p['商品名稱(副)']; migrated = true; }
+    if('現行單位' in p) { delete p['現行單位']; migrated = true; }
   });
   if(migrated) saveProducts();
   const now = new Date();
@@ -91,7 +89,7 @@ function renderProducts() {
     const sel = selectedProduct && selectedProduct.商品編號 === p.商品編號;
     return `<button class="product-btn ${sel?'selected':''}" onclick="selectProduct(${p.商品編號})">
       <div class="product-name">${p.商品名稱}</div>
-      ${p['商品名稱(副)'] ? `<div class="product-sub">${p['商品名稱(副)']}</div>` : ''}
+      ${p['葷素別'] ? `<div class="product-sub">${p['葷素別']}</div>` : ''}
       <div class="product-code">#${p.商品編號}</div>
     </button>`;
   }).join('');
@@ -117,7 +115,7 @@ function renderPrintPanel() {
   const p = selectedProduct;
   info.innerHTML = `
     <div class="name">${p.商品名稱}</div>
-    ${p['商品名稱(副)'] ? `<div class="sub">${p['商品名稱(副)']}</div>` : ''}
+    ${p['葷素別'] ? `<div class="sub">${p['葷素別']}</div>` : ''}
     <div class="barcode">${p.條碼內容 || ''} · #${p.商品編號}</div>
   `;
   printBtn.disabled = false;
