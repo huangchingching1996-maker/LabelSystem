@@ -39,7 +39,7 @@ async function processUploadFile(file) {
     const ws = wb.Sheets[wb.SheetNames[0]];
     const data = XLSX.utils.sheet_to_json(ws, {defval:null});
 
-    const validKeys = new Set(FIELDS.map(f => f.key));
+    const validKeys = new Set(FIELDS.filter(f => f.key).map(f => f.key));
     data.forEach(row => {
       if(!row.類別) row.類別 = '其他';
       // migrate old key name
@@ -73,7 +73,7 @@ async function exportExcel() {
     const XLSX = await import('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/xlsx.mjs');
     const exportData = products.map(p => {
       const row = {};
-      FIELDS.forEach(f => { row[f.key] = p[f.key] ?? null; });
+      FIELDS.forEach(f => { if(f.key) row[f.key] = p[f.key] ?? null; });
       return row;
     });
     const ws = XLSX.utils.json_to_sheet(exportData);
