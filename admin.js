@@ -63,11 +63,23 @@ function renderAdminTable() {
   }).join('');
 }
 
+// ── Add Modal ──
+function openAddModal() {
+  const nextId = products.length ? Math.max(...products.map(p => p.商品編號)) + 1 : 1;
+  const blank = { 商品編號: nextId, 條碼格式: 'EAN8', 豬肉原產地: '否' };
+  editIdx = -1;
+  _openModalWith('新增商品', blank);
+}
+
 // ── Edit Modal ──
 function openEditModal(idx) {
   editIdx = idx;
   const p = products[idx];
-  document.getElementById('edit-modal-title').textContent = `編輯：${p.商品名稱}`;
+  _openModalWith(`編輯：${p.商品名稱}`, p);
+}
+
+function _openModalWith(title, p) {
+  document.getElementById('edit-modal-title').textContent = title;
 
   const grid = document.getElementById('edit-form-grid');
   grid.innerHTML = FIELDS.map(f => {
@@ -140,25 +152,28 @@ function confirmDelete() {
 
 function saveEdit() {
   if(editIdx === null) return;
+  const isAdd = editIdx === -1;
+  const target = isAdd ? {} : products[editIdx];
   const inputs = document.querySelectorAll('#edit-form-grid [data-key]');
   inputs.forEach(el => {
     const key = el.dataset.key;
     const field = FIELDS.find(f => f.key === key);
     if(!field) return;
     if(field.type === 'toggle') {
-      products[editIdx][key] = el.checked ? '是' : '否';
+      target[key] = el.checked ? '是' : '否';
       return;
     }
     const raw = el.value.trim();
     if(field.type === 'number') {
-      products[editIdx][key] = raw === '' ? null : parseFloat(raw);
+      target[key] = raw === '' ? null : parseFloat(raw);
     } else {
-      products[editIdx][key] = raw === '' ? null : raw;
+      target[key] = raw === '' ? null : raw;
     }
   });
+  if(isAdd) products.push(target);
   saveProducts();
   renderAdminTable();
   renderCats();
   closeEditModal();
-  showToast('已儲存', 'success');
+  showToast(isAdd ? '已新增' : '已儲存', 'success');
 }
