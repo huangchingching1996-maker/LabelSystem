@@ -14399,7 +14399,7 @@ const FIELDS = [
   {key:'條碼內容',label:'條碼內容 *',type:'text',required:true},
   {key:'保存天數',label:'保存天數 *',type:'number',required:true},
   {key:'容量',label:'容量',type:'number'},
-  {key:'成分',label:'成分',type:'textarea',full:true},
+  {key:'成分',label:'成分（逗號請用半形 ,）',type:'textarea',full:true,placeholder:'例：糯米粉,砂糖,麥芽,芝麻'},
   {key:'過敏原',label:'過敏原',type:'allergens',full:true,options:['花生','小麥麵粉','大豆製品','牛奶製品','蛋','芝麻','堅果','核桃','杏仁','燕麥','蕎麥','夏威夷果','松子','南瓜子']},
   {key:'保存方式',label:'保存方式',type:'select',full:true,options:['','商品請放置陰涼處保存','商品請冷藏保存','請放置0-7℃冷藏保存,常溫2小時內食用。','請放置0-7℃冷藏保存,常溫3小時內食用。','請放置0-7℃冷藏保存,常溫4小時內食用。','請放置0-7℃冷藏保存,常溫5小時內食用。','請放置0-7℃冷藏保存,常溫6小時內食用。','請放置0-7℃冷藏保存,常溫7小時內食用。','請放置0-7℃冷藏保存,常溫8小時內食用。','請放置0-7℃冷藏保存,常溫9小時內食用。','請放置0-7℃冷藏保存,常溫10小時內食用。']},
   {key:'豬肉原產地',label:'豬肉原產地',type:'toggle'},

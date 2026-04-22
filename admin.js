@@ -123,7 +123,7 @@ function _openModalWith(title, p) {
     if(f.type === 'textarea') return `
       <div class="field-group ${fullClass}">
         <label class="field-label">${f.label}</label>
-        <textarea class="field-textarea" data-key="${f.key}">${val}</textarea>
+        <textarea class="field-textarea" data-key="${f.key}" placeholder="${f.placeholder||''}">${val}</textarea>
       </div>`;
     if(f.type === 'select') return `
       <div class="field-group ${fullClass}">
@@ -200,7 +200,8 @@ function saveEdit() {
       target[key] = checked.length ? checked.join('、') : '無';
       return;
     }
-    const raw = el.value.trim();
+    let raw = el.value.trim();
+    if(field.key === '成分') raw = raw.replace(/，/g, ',');
     if(field.type === 'number') {
       target[key] = raw === '' ? null : parseFloat(raw);
     } else {
