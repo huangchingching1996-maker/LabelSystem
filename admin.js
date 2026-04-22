@@ -26,16 +26,7 @@ function renderAdminTable() {
       ${td(p.成分, false, false, true)}
       ${td(p.過敏原, false, false, true)}
       ${td(p.保存方式, false, false, true)}
-      <td>
-        <label class="toggle-wrap" onclick="event.stopPropagation()">
-          <div class="toggle">
-            <input type="checkbox" ${p.豬肉原產地==='是'?'checked':''} onchange="togglePork(${realIdx}, this.checked)">
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </div>
-          <span class="toggle-label">${p.豬肉原產地==='是'?'是':'否'}</span>
-        </label>
-      </td>
+      ${td(p.豬肉原產地==='是'?'是':'否')}
       ${td(p['每份重量(公克)'])}
       ${td(p.本包裝含幾份)}
       ${td(p['熱量(每份)'])}
