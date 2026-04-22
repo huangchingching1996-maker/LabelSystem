@@ -291,7 +291,7 @@ function buildSmallPreviewHTML(s, wPx, hPx) {
   ].filter(Boolean).join('');
 
   const barcodeHTML = show.條碼 ? `
-    <div style="border-top:0.5px solid #ccc;padding-top:2px;text-align:center;flex-shrink:0">
+    <div style="padding-top:2px;text-align:center;flex-shrink:0">
       <svg width="${Math.round(wPx * 0.85)}" height="${Math.max(8, fs.barcode * 2.2)}" style="display:block;margin:0 auto">
         ${Array.from({length: 50}, (_,i) => {
           const on = [0,2,4,7,9,12,14,17,19,22,24,27,29,32,34,37,39,42,44,47,49].includes(i);
