@@ -184,14 +184,14 @@ function updateSettingsPreview() {
         ${html}
       </div>
     </div>
-    <div class="preview-zoom-bar">
-      <span class="preview-zoom-label">縮放</span>
-      <input type="range" min="0.3" max="3" step="0.05" value="${previewZoom}"
-        oninput="onPreviewZoom(+this.value)" class="preview-zoom-slider">
-      <span class="preview-zoom-pct" id="preview-zoom-pct">${Math.round(previewZoom*100)}%</span>
-    </div>
     <div class="preview-size-info">${s.width} × ${s.height} mm　|　${wPx} × ${hPx} px</div>
   `;
+
+  // sync slider value without rebuilding it
+  const slider = document.getElementById('preview-zoom-slider');
+  if (slider) slider.value = previewZoom;
+  const pct = document.getElementById('preview-zoom-pct');
+  if (pct) pct.textContent = Math.round(previewZoom * 100) + '%';
 }
 
 function onPreviewZoom(val) {

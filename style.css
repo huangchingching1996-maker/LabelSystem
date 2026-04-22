@@ -1075,11 +1075,28 @@ body {
 .settings-preview-panel {
   flex: 1;
   background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.settings-preview-scroll {
+  flex: 1;
   overflow-y: auto;
   padding: 28px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.settings-zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 32px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
 }
 
 .settings-preview-title {
@@ -1090,6 +1107,7 @@ body {
   color: var(--text-muted);
   margin-bottom: 20px;
   align-self: flex-start;
+  flex-shrink: 0;
 }
 
 .preview-scale-wrap {
