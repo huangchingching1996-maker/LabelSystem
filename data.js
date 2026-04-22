@@ -14391,9 +14391,9 @@ const BUILTIN = [
 const CATS = ['全部', '喜餅類', '大餅類', '小點類', '文創商品', '椪類', '禮盒類', '空盒類', '節慶禮盒', '糕類', '老類', '臨時條碼', '運費', '酥餅系列', '飲料類', '餅類', '餐點類', '鳳梨酥系列'];
 
 const FIELDS = [
-  {key:'商品編號',label:'商品編號',type:'number'},
+  {key:'商品編號',label:'商品編號',type:'readonly'},
   {key:'商品名稱',label:'商品名稱',type:'text'},
-  {key:'葷素別',label:'葷素別',type:'text'},
+  {key:'葷素別',label:'葷素別',type:'select',options:['','葷','純素','全素','大素','奶素','奶蛋素','蛋奶素','植物五辛素']},
   {key:'類別',label:'類別',type:'select',options:['傳統糕點','中式餅點','喜餅','禮盒','糖果零食','冷藏點心','其他']},
   {key:'條碼格式',label:'條碼格式',type:'select',options:['EAN8','EAN13']},
   {key:'條碼內容',label:'條碼內容',type:'text'},

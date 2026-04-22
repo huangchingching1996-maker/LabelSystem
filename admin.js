@@ -85,6 +85,11 @@ function _openModalWith(title, p) {
   grid.innerHTML = FIELDS.map(f => {
     if(f.section) return `<div class="section-divider full">${f.section}</div>`;
     if(f.skip) return '';
+    if(f.type === 'readonly') return `
+      <div class="field-group ${f.full ? 'full' : ''}">
+        <label class="field-label">${f.label}</label>
+        <div class="field-input" style="background:var(--bg);color:var(--text-muted);cursor:default">${p[f.key] ?? ''}</div>
+      </div>`;
     const val = p[f.key] != null ? p[f.key] : '';
     const fullClass = f.full ? 'full' : '';
     if(f.type === 'toggle') return `
