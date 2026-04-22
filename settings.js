@@ -286,13 +286,13 @@ function buildLargePreviewHTML(s, wPx, hPx) {
   const { show, fontSize: fs } = s;
 
   const LEFT_SAMPLE = {
-    '成分':     `成分：糯米粉、砂糖、玫瑰花`,
-    '過敏原':   `過敏原：無`,
-    '容量':     `容量：250 公克`,
-    '保存天數': `保存期限：5 天`,
+    '成分':     `成分:糯米粉、砂糖、玫瑰花`,
+    '過敏原':   `過敏原:無`,
+    '容量':     `容量:250 公克`,
+    '保存天數': `保存期限:5 天`,
     '有效日期': `有效日期:2026/05/01`,
     '保存方式': `請放置陰涼處保存`,
-    '豬肉原產地': `豬肉原料原產地：臺灣`,
+    '豬肉原產地': `豬肉原料原產地:臺灣`,
   };
   const leftLines = s.leftOrder
     .filter(key => show[key])
@@ -368,9 +368,9 @@ function buildSmallPreviewHTML(s, wPx, hPx) {
     `<div style="font-size:${fs.name}px;font-weight:700;margin-bottom:1px">玫瑰花茶糕</div>`,
     show.葷素別    ? `<div class="pv-line" style="font-size:${fs.sub}px;color:#555">純素</div>` : '',
     show.保存方式  ? `<div class="pv-line" style="font-size:${fs.body}px">請放置陰涼處保存</div>` : '',
-    show.保存天數  ? `<div class="pv-line" style="font-size:${fs.body}px">保存天數：5 天</div>` : '',
-    show.有效日期  ? `<div class="pv-line" style="font-size:${fs.body}px">有效日期：2026/05/01</div>` : '',
-    show.豬肉原產地? `<div class="pv-line" style="font-size:${fs.body}px">豬肉原料原產地：臺灣</div>` : '',
+    show.保存天數  ? `<div class="pv-line" style="font-size:${fs.body}px">保存天數:5 天</div>` : '',
+    show.有效日期  ? `<div class="pv-line" style="font-size:${fs.body}px">有效日期:2026/05/01</div>` : '',
+    show.豬肉原產地? `<div class="pv-line" style="font-size:${fs.body}px">豬肉原料原產地:臺灣</div>` : '',
   ].filter(Boolean).join('');
 
   const barcodeHTML = show.條碼 ? `

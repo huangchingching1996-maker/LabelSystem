@@ -70,9 +70,9 @@ function buildLabelHTML(product, size) {
         <div class="sl-name">${p.商品名稱}</div>
         <div class="sl-sub">${p['葷素別']||''}</div>
         <div class="sl-info">${p.保存方式||''}</div>
-        <div class="sl-info">保存天數：${p.保存天數||''}&nbsp;&nbsp;天</div>
-        ${showExpiry ? `<div class="sl-info">有效日期：${expiry}</div>` : `<div class="sl-info"></div>`}
-        ${p.豬肉原產地==='是' ? `<div class="sl-info">豬肉原料原產地：臺灣</div>` : ''}
+        <div class="sl-info">保存天數:${p.保存天數||''}&nbsp;&nbsp;天</div>
+        ${showExpiry ? `<div class="sl-info">有效日期:${expiry}</div>` : `<div class="sl-info"></div>`}
+        ${p.豬肉原產地==='是' ? `<div class="sl-info">豬肉原料原產地:臺灣</div>` : ''}
       </div>
       <div class="sl-barcode-wrap">
         ${svg}
@@ -113,7 +113,7 @@ function buildLabelHTML(product, size) {
     </tr>`;
   }).join('');
 
-  const notes = p.豬肉原產地 === '是' ? '豬肉原料原產地：臺灣' : '';
+  const notes = p.豬肉原產地 === '是' ? '豬肉原料原產地:臺灣' : '';
 
   return `<div class="label-large" style="width:208px;height:208px;padding:8px 6px 4px 6px;">
     <div class="ll-header">
@@ -123,12 +123,12 @@ function buildLabelHTML(product, size) {
     <div class="ll-body">
       <div class="ll-left">
         ${p.成分 ? `<div class="ll-row"><span class="ll-val">${p.成分}</span></div>` : ''}
-        ${p['容量'] ? `<div class="ll-row"><span class="ll-label">容量：</span><span class="ll-val">${p['容量']} 公克</span></div>` : ''}
+        ${p['容量'] ? `<div class="ll-row"><span class="ll-label">容量:</span><span class="ll-val">${p['容量']} 公克</span></div>` : ''}
         ${p.過敏原 ? `<div class="ll-row"><span class="ll-val">${p.過敏原}</span></div>` : ''}
-        <div class="ll-row"><span class="ll-label">保存期限：</span><span class="ll-val">${p.保存天數||''}&nbsp;&nbsp;天</span></div>
+        <div class="ll-row"><span class="ll-label">保存期限:</span><span class="ll-val">${p.保存天數||''}&nbsp;&nbsp;天</span></div>
         ${showExpiry ? `<div class="ll-row" style="flex-wrap:nowrap;white-space:nowrap"><span class="ll-label">有效日期:</span><span class="ll-val">${expiryL}</span></div>` : `<div class="ll-row"></div>`}
-        <div class="ll-row"><span class="ll-label">製造商：</span><span class="ll-val">玉珍齋</span></div>
-        ${p.保存方式 ? `<div class="ll-row"><span class="ll-label">保存方式：</span><span class="ll-val">${p.保存方式}</span></div>` : ''}
+        <div class="ll-row"><span class="ll-label">製造商:</span><span class="ll-val">玉珍齋</span></div>
+        ${p.保存方式 ? `<div class="ll-row"><span class="ll-label">保存方式:</span><span class="ll-val">${p.保存方式}</span></div>` : ''}
         ${notes ? `<div class="ll-row"><span class="ll-val">${notes}</span></div>` : ''}
       </div>
       <div class="ll-right">
