@@ -7,10 +7,11 @@ const DEFAULT_SETTINGS = {
     width: 55, height: 55,
     fontSize: { name: 16, sub: 10, body: 8, barcode: 8 },
     show: {
-      葷素別: true, 條碼: true, 保存天數: true, 容量: true,
-      成分: true, 過敏原: true, 保存方式: true, 有效日期: true,
-      豬肉原產地: true, 營養標示: true,
-    }
+      葷素別: true, 條碼: true, 營養標示: true,
+      成分: true, 過敏原: true, 容量: true, 保存天數: true,
+      有效日期: true, 保存方式: true, 豬肉原產地: true,
+    },
+    leftOrder: ['成分', '過敏原', '容量', '保存天數', '有效日期', '保存方式', '豬肉原產地'],
   },
   small: {
     width: 35, height: 25,
@@ -34,8 +35,9 @@ function loadLabelSettings() {
       labelSettings = {
         large: {
           ...DEFAULT_SETTINGS.large, ...p.large,
-          fontSize: { ...DEFAULT_SETTINGS.large.fontSize, ...p.large?.fontSize },
-          show:     { ...DEFAULT_SETTINGS.large.show,     ...p.large?.show },
+          fontSize:  { ...DEFAULT_SETTINGS.large.fontSize,  ...p.large?.fontSize },
+          show:      { ...DEFAULT_SETTINGS.large.show,      ...p.large?.show },
+          leftOrder: p.large?.leftOrder ?? [...DEFAULT_SETTINGS.large.leftOrder],
         },
         small: {
           ...DEFAULT_SETTINGS.small, ...p.small,
@@ -71,22 +73,38 @@ function showSettingsTab(tab) {
 }
 
 // ── Form ──
-const SHOW_FIELDS = [
+const SMALL_SHOW_FIELDS = [
   { key: '葷素別',    label: '葷素別' },
-  { key: '條碼',      label: '條碼' },
-  { key: '保存天數',  label: '保存天數' },
   { key: '容量',      label: '容量' },
   { key: '成分',      label: '成分' },
   { key: '過敏原',    label: '過敏原' },
-  { key: '保存方式',  label: '保存方式' },
+  { key: '保存天數',  label: '保存天數' },
   { key: '有效日期',  label: '有效日期' },
+  { key: '保存方式',  label: '保存方式' },
   { key: '豬肉原產地',label: '豬肉原產地' },
   { key: '營養標示',  label: '營養標示（打包）' },
+  { key: '條碼',      label: '條碼' },
 ];
+
+function toggleRow(key, checked) {
+  return `
+    <div class="settings-row">
+      <span class="settings-label">${key}</span>
+      <label class="toggle-wrap" style="margin:0">
+        <div class="toggle">
+          <input type="checkbox" ${checked ? 'checked' : ''}
+            onchange="onShowChange('${key}', this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </div>
+      </label>
+    </div>`;
+}
 
 function renderSettingsForm() {
   const s = labelSettings[settingsTab];
-  document.getElementById('settings-form').innerHTML = `
+
+  const sizeSection = `
     <div class="settings-section">
       <div class="settings-section-title">尺寸</div>
       <div class="settings-row">
@@ -99,8 +117,9 @@ function renderSettingsForm() {
         <input class="settings-input" type="number" min="15" max="200" value="${s.height}"
           oninput="onSettingChange('height', +this.value)">
       </div>
-    </div>
+    </div>`;
 
+  const fontSection = `
     <div class="settings-section">
       <div class="settings-section-title">字體大小 (px)</div>
       <div class="settings-row">
@@ -123,30 +142,81 @@ function renderSettingsForm() {
         <input class="settings-input" type="number" min="5" max="16" value="${s.fontSize.barcode}"
           oninput="onFontChange('barcode', +this.value)">
       </div>
-    </div>
+    </div>`;
 
-    <div class="settings-section">
-      <div class="settings-section-title">顯示欄位</div>
-      ${SHOW_FIELDS.map(f => `
-        <div class="settings-row">
-          <span class="settings-label">${f.label}</span>
+  let fieldsSection;
+
+  if (settingsTab === 'large') {
+    const order = s.leftOrder;
+    const leftRows = order.map((key, i) => `
+      <div class="settings-row">
+        <span class="settings-label">${key}</span>
+        <div style="display:flex;align-items:center;gap:6px">
           <label class="toggle-wrap" style="margin:0">
             <div class="toggle">
-              <input type="checkbox" ${s.show[f.key] ? 'checked' : ''}
-                onchange="onShowChange('${f.key}', this.checked)">
+              <input type="checkbox" ${s.show[key] ? 'checked' : ''}
+                onchange="onShowChange('${key}', this.checked)">
               <div class="toggle-track"></div>
               <div class="toggle-thumb"></div>
             </div>
           </label>
+          <div class="order-btns">
+            <button class="order-btn" ${i === 0 ? 'disabled' : ''} onclick="moveLargeLeft('${key}', -1)">↑</button>
+            <button class="order-btn" ${i === order.length - 1 ? 'disabled' : ''} onclick="moveLargeLeft('${key}', 1)">↓</button>
+          </div>
         </div>
-      `).join('')}
-    </div>
+      </div>`).join('');
 
+    fieldsSection = `
+      <div class="settings-section">
+        <div class="settings-section-title">顯示欄位</div>
+        <div class="settings-zone-label">上區</div>
+        ${toggleRow('葷素別', s.show['葷素別'])}
+        <div class="settings-zone-label">中左 <span style="font-weight:400;font-size:10px;margin-left:4px">可調順序</span></div>
+        ${leftRows}
+        <div class="settings-zone-label">中右</div>
+        ${toggleRow('營養標示', s.show['營養標示'])}
+        <div class="settings-zone-label">下區</div>
+        ${toggleRow('條碼', s.show['條碼'])}
+      </div>`;
+  } else {
+    fieldsSection = `
+      <div class="settings-section">
+        <div class="settings-section-title">顯示欄位</div>
+        ${SMALL_SHOW_FIELDS.map(f => `
+          <div class="settings-row">
+            <span class="settings-label">${f.label}</span>
+            <label class="toggle-wrap" style="margin:0">
+              <div class="toggle">
+                <input type="checkbox" ${s.show[f.key] ? 'checked' : ''}
+                  onchange="onShowChange('${f.key}', this.checked)">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+            </label>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  document.getElementById('settings-form').innerHTML = `
+    ${sizeSection}
+    ${fontSection}
+    ${fieldsSection}
     <div class="settings-actions">
       <button class="btn" onclick="resetSettings()">重設預設值</button>
       <button class="btn btn-primary" onclick="saveSettings()">儲存設定</button>
     </div>
   `;
+}
+
+function moveLargeLeft(key, dir) {
+  const order = labelSettings.large.leftOrder;
+  const idx = order.indexOf(key);
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= order.length) return;
+  [order[idx], order[newIdx]] = [order[newIdx], order[idx]];
+  renderSettingsForm();
+  updateSettingsPreview();
 }
 
 function onSettingChange(key, val) {
@@ -206,15 +276,19 @@ function onPreviewZoom(val) {
 function buildLargePreviewHTML(s, wPx, hPx) {
   const { show, fontSize: fs } = s;
 
-  const leftLines = [
-    show.成分      ? `<div class="pv-line" style="font-size:${fs.body}px">成分：糯米粉、砂糖、玫瑰花</div>` : '',
-    show.過敏原    ? `<div class="pv-line" style="font-size:${fs.body}px">過敏原：無</div>` : '',
-    show.容量      ? `<div class="pv-line" style="font-size:${fs.body}px">容量：250g</div>` : '',
-    show.保存天數  ? `<div class="pv-line" style="font-size:${fs.body}px">保存天數：5 天</div>` : '',
-    show.有效日期  ? `<div class="pv-line" style="font-size:${fs.body}px">有效日期：2026/05/01</div>` : '',
-    show.保存方式  ? `<div class="pv-line" style="font-size:${fs.body}px">請放置陰涼處保存</div>` : '',
-    show.豬肉原產地? `<div class="pv-line" style="font-size:${fs.body}px">豬肉原料原產地：臺灣</div>` : '',
-  ].filter(Boolean).join('');
+  const LEFT_SAMPLE = {
+    '成分':     `成分：糯米粉、砂糖、玫瑰花`,
+    '過敏原':   `過敏原：無`,
+    '容量':     `容量：250 公克`,
+    '保存天數': `保存期限：5 天`,
+    '有效日期': `有效日期：2026/05/01`,
+    '保存方式': `請放置陰涼處保存`,
+    '豬肉原產地': `豬肉原料原產地：臺灣`,
+  };
+  const leftLines = s.leftOrder
+    .filter(key => show[key])
+    .map(key => `<div class="pv-line" style="font-size:${fs.body}px">${LEFT_SAMPLE[key]||key}</div>`)
+    .join('');
 
   const ntHTML = show.營養標示 ? `
     <div style="border:1px solid #000;display:flex;flex-direction:column;height:100%;box-sizing:border-box;font-size:${fs.body - 1}px">

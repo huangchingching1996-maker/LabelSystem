@@ -1153,3 +1153,34 @@ body {
   width: 36px;
   text-align: right;
 }
+
+.settings-zone-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  padding: 6px 0 2px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.settings-zone-label:first-of-type { border-top: none; margin-top: 0; }
+
+.order-btns { display: flex; flex-direction: column; gap: 1px; }
+.order-btn {
+  width: 20px;
+  height: 16px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.1s;
+}
+.order-btn:hover:not(:disabled) { background: var(--border); }
+.order-btn:disabled { opacity: 0.3; cursor: default; }
