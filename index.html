@@ -17,6 +17,7 @@
     <div class="topbar-nav">
       <button class="nav-btn active" onclick="showView('pos')">列印</button>
       <button class="nav-btn" onclick="showView('admin')">商品管理</button>
+      <button class="nav-btn" onclick="showView('settings')">設定</button>
     </div>
   </div>
 
@@ -84,6 +85,25 @@
         <div class="print-footer">
           <button class="print-btn" id="print-btn" onclick="doPrint()" disabled>列印</button>
           <button class="preview-btn" id="preview-btn" onclick="doPreview()" disabled>預覽標籤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings View -->
+    <div id="settings-view">
+      <div class="settings-layout">
+        <!-- Left: Controls -->
+        <div class="settings-panel">
+          <div class="settings-tabs">
+            <button class="settings-tab-btn active" data-tab="large" onclick="showSettingsTab('large')">大標</button>
+            <button class="settings-tab-btn" data-tab="small" onclick="showSettingsTab('small')">小標</button>
+          </div>
+          <div class="settings-form-wrap" id="settings-form"></div>
+        </div>
+        <!-- Right: Preview -->
+        <div class="settings-preview-panel">
+          <div class="settings-preview-title">即時預覽</div>
+          <div id="settings-preview-container"></div>
         </div>
       </div>
     </div>
@@ -230,5 +250,6 @@
 <script src="print.js"></script>
 <script src="admin.js"></script>
 <script src="upload.js"></script>
+<script src="settings.js"></script>
 </body>
 </html>

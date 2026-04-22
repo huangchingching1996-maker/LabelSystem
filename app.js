@@ -42,10 +42,12 @@ function togglePork(idx, checked) {
 function showView(v) {
   document.getElementById('pos-view').style.display = v==='pos' ? 'flex' : 'none';
   document.getElementById('admin-view').style.display = v==='admin' ? 'flex' : 'none';
+  document.getElementById('settings-view').style.display = v==='settings' ? 'flex' : 'none';
   document.querySelectorAll('.nav-btn').forEach((b,i) => {
-    b.classList.toggle('active', (i===0 && v==='pos') || (i===1 && v==='admin'));
+    b.classList.toggle('active', (i===0&&v==='pos')||(i===1&&v==='admin')||(i===2&&v==='settings'));
   });
   if(v==='admin') renderAdminTable();
+  if(v==='settings') { renderSettingsForm(); updateSettingsPreview(); }
 }
 
 // ── Categories ──
