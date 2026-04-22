@@ -217,30 +217,35 @@ function buildLargePreviewHTML(s, wPx, hPx) {
   ].filter(Boolean).join('');
 
   const ntHTML = show.營養標示 ? `
-    <div style="border:0.5px solid #bbb;padding:2px;font-size:${fs.body - 1}px;height:100%;box-sizing:border-box">
-      <div style="font-weight:700;text-align:center;border-bottom:0.5px solid #bbb;padding-bottom:1px;margin-bottom:2px">營養標示</div>
-      <table style="width:100%;border-collapse:collapse;font-size:${fs.body - 1}px">
-        <thead><tr>
-          <th style="text-align:left;font-weight:600;white-space:nowrap">每份 10g</th>
-          <th style="font-weight:600">每份</th>
-          <th style="font-weight:600">每100g</th>
-        </tr></thead>
+    <div style="border:1px solid #000;display:flex;flex-direction:column;height:100%;box-sizing:border-box;font-size:${fs.body - 1}px">
+      <div style="text-align:center;letter-spacing:2px;padding:1px 2px;border-bottom:1px solid #000;font-size:${fs.body - 1}px">營 養 標 示</div>
+      <div style="font-size:${fs.body - 1}px;padding:1px 3px;border-bottom:1px solid #000;white-space:nowrap;line-height:1.35">
+        每一份量 10 公克<br>本包裝含 25 份
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:${fs.body - 1}px;flex:1">
+        <thead>
+          <tr style="border-bottom:0.5px solid #000">
+            <th style="text-align:left;font-weight:400;padding:0.5px 1px;white-space:nowrap"></th>
+            <th style="font-weight:400;text-align:center;padding:0.5px 1px">每份</th>
+            <th style="font-weight:400;text-align:center;padding:0.5px 1px">每100克</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>熱量</td><td style="text-align:right">36.5 大卡</td><td style="text-align:right">365 大卡</td></tr>
-          <tr><td>蛋白質</td><td style="text-align:right">0 公克</td><td style="text-align:right">0 公克</td></tr>
-          <tr><td>脂肪</td><td style="text-align:right">0.5 公克</td><td style="text-align:right">5 公克</td></tr>
-          <tr><td style="padding-left:6px">飽和脂肪</td><td style="text-align:right">0 公克</td><td style="text-align:right">0 公克</td></tr>
-          <tr><td style="padding-left:6px">反式脂肪</td><td style="text-align:right">0 公克</td><td style="text-align:right">0 公克</td></tr>
-          <tr><td>碳水化合物</td><td style="text-align:right">8 公克</td><td style="text-align:right">80 公克</td></tr>
-          <tr><td style="padding-left:6px">糖</td><td style="text-align:right">2 公克</td><td style="text-align:right">20 公克</td></tr>
-          <tr><td>鈉</td><td style="text-align:right">1 毫克</td><td style="text-align:right">10 毫克</td></tr>
+          <tr><td style="padding:0.5px 1px">熱量</td><td style="text-align:right;padding:0.5px 1px">36.5大卡</td><td style="text-align:right;padding:0.5px 1px">365大卡</td></tr>
+          <tr><td style="padding:0.5px 1px">蛋白質</td><td style="text-align:right;padding:0.5px 1px">0公克</td><td style="text-align:right;padding:0.5px 1px">0公克</td></tr>
+          <tr><td style="padding:0.5px 1px">脂肪</td><td style="text-align:right;padding:0.5px 1px">0.5公克</td><td style="text-align:right;padding:0.5px 1px">5公克</td></tr>
+          <tr><td style="padding:0.5px 1px 0.5px 6px">飽和脂肪</td><td style="text-align:right;padding:0.5px 1px">0公克</td><td style="text-align:right;padding:0.5px 1px">0公克</td></tr>
+          <tr><td style="padding:0.5px 1px 0.5px 6px">反式脂肪</td><td style="text-align:right;padding:0.5px 1px">0公克</td><td style="text-align:right;padding:0.5px 1px">0公克</td></tr>
+          <tr><td style="padding:0.5px 1px">碳水化合物</td><td style="text-align:right;padding:0.5px 1px">8公克</td><td style="text-align:right;padding:0.5px 1px">80公克</td></tr>
+          <tr><td style="padding:0.5px 1px 0.5px 6px">糖</td><td style="text-align:right;padding:0.5px 1px">2公克</td><td style="text-align:right;padding:0.5px 1px">20公克</td></tr>
+          <tr><td style="padding:0.5px 1px">鈉</td><td style="text-align:right;padding:0.5px 1px">1毫克</td><td style="text-align:right;padding:0.5px 1px">10毫克</td></tr>
         </tbody>
       </table>
     </div>
   ` : '';
 
   const barcodeHTML = show.條碼 ? `
-    <div style="border-top:0.5px solid #bbb;padding-top:3px;text-align:center">
+    <div style="margin-top:2px;text-align:center;flex-shrink:0">
       <svg width="110" height="${Math.max(10, fs.barcode * 2)}" style="display:block;margin:0 auto">
         ${Array.from({length: 60}, (_,i) => {
           const on = [0,3,5,8,10,13,15,20,22,25,27,30,32,35,37,40,42,47,49,52,54,57,59].includes(i);
@@ -255,18 +260,18 @@ function buildLargePreviewHTML(s, wPx, hPx) {
     <div style="width:${wPx}px;height:${hPx}px;border:1px solid #aaa;background:#fff;
       font-family:'Noto Sans TC',sans-serif;padding:5px;box-sizing:border-box;
       display:flex;flex-direction:column;overflow:hidden;">
-      <!-- 商品名稱 + 葷素別 -->
+      <!-- 商品名稱 + 葷素別（無橫線） -->
       <div style="display:flex;justify-content:space-between;align-items:baseline;
-        border-bottom:0.5px solid #ccc;padding-bottom:3px;margin-bottom:3px;flex-shrink:0">
-        <div style="font-size:${fs.name}px;font-weight:700;white-space:nowrap;overflow:hidden">玫瑰花茶糕</div>
-        ${show.葷素別 ? `<div style="font-size:${fs.sub}px;color:#555;white-space:nowrap;margin-left:4px">純素</div>` : ''}
+        margin-bottom:2px;flex-shrink:0">
+        <div style="font-size:${fs.name}px;font-weight:400;white-space:nowrap;overflow:hidden">玫瑰花茶糕</div>
+        ${show.葷素別 ? `<div style="font-size:${fs.sub}px;color:#000;white-space:nowrap;margin-left:4px">純素</div>` : ''}
       </div>
       <!-- 左欄 + 右欄(營養) -->
-      <div style="display:flex;flex:1;gap:4px;overflow:hidden;min-height:0">
-        <div style="flex:1;overflow:hidden">${leftLines}</div>
-        ${ntHTML ? `<div style="flex:1;overflow:hidden">${ntHTML}</div>` : ''}
+      <div style="display:flex;flex:1;gap:3px;overflow:hidden;min-height:0">
+        <div style="flex:1;overflow:hidden;font-size:${fs.body}px">${leftLines}</div>
+        ${ntHTML ? `<div style="width:113px;flex-shrink:0;overflow:hidden">${ntHTML}</div>` : ''}
       </div>
-      <!-- 條碼 -->
+      <!-- 條碼（無橫線） -->
       ${barcodeHTML}
     </div>
   `;
