@@ -1,25 +1,4 @@
 // ── Label HTML ──
-// ── EAN-8 helpers ──
-function ean8Check(seven) {
-  const d = seven.toString().padStart(7,'0').split('').map(Number);
-  const t = (d[0]+d[2]+d[4]+d[6])*3 + (d[1]+d[3]+d[5]);
-  return (10 - t%10) % 10;
-}
-function fullEan8(code) {
-  const s = code.toString().padStart(7,'0').slice(0,7);
-  return s + ean8Check(s);
-}
-
-// ── EAN-13 helpers ──
-function ean13Check(twelve) {
-  const d = twelve.toString().padStart(12,'0').slice(0,12).split('').map(Number);
-  const sum = d.reduce((acc, v, i) => acc + v * (i % 2 === 0 ? 1 : 3), 0);
-  return (10 - sum % 10) % 10;
-}
-function fullEan13(code) {
-  const s = code.toString().padStart(12,'0').slice(0,12);
-  return s + ean13Check(s);
-}
 function ean13SVG(code13, width, height) {
   const L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
   const G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
@@ -79,11 +58,10 @@ function buildLabelHTML(product, size) {
   // ── Small label: 30×25mm ──
   if(size === 'small') {
     let bcCode, svg;
+    bcCode = (p.條碼內容||'').toString();
     if(isEAN13) {
-      bcCode = fullEan13((p.條碼內容||'').toString());
       svg = ean13SVG(bcCode, 115, 20);
     } else {
-      bcCode = fullEan8((p.條碼內容||'').toString());
       svg = ean8SVG(bcCode, 100, 20);
     }
     const expiry = expiryDate(p.保存天數);
@@ -105,11 +83,10 @@ function buildLabelHTML(product, size) {
 
   // ── Large label: 55×55mm = 208×208px ──
   let bcCodeL, svgL;
+  bcCodeL = (p.條碼內容||'').toString();
   if(isEAN13) {
-    bcCodeL = fullEan13((p.條碼內容||'').toString());
     svgL = ean13SVG(bcCodeL, 160, 18);
   } else {
-    bcCodeL = fullEan8((p.條碼內容||'').toString());
     svgL = ean8SVG(bcCodeL, 120, 18);
   }
   const expiryL = expiryDate(p.保存天數);
