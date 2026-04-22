@@ -158,6 +158,25 @@
   </div>
 </div>
 
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <span class="modal-title">刪除商品</span>
+      <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin:0;font-size:15px;color:var(--text-primary)">確定要刪除</p>
+      <p style="margin:8px 0 0;font-size:16px;font-weight:600;color:#B91C1C" id="delete-modal-name"></p>
+      <p style="margin:8px 0 0;font-size:13px;color:var(--text-secondary)">刪除後無法復原。</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeDeleteModal()">取消</button>
+      <button class="btn" style="background:#B91C1C;color:#fff;border-color:#B91C1C" onclick="confirmDelete()">確認刪除</button>
+    </div>
+  </div>
+</div>
+
 <!-- Upload Modal -->
 <div class="modal-overlay" id="upload-modal">
   <div class="modal" style="max-width:460px">

@@ -55,7 +55,10 @@ function renderAdminTable() {
       ${td(p['碳水化合物(每100克)'])}
       ${td(p['糖(每100克)'])}
       ${td(p['鈉(每100克)'])}
-      <td><button class="edit-btn" onclick="openEditModal(${realIdx})">編輯</button></td>
+      <td style="white-space:nowrap">
+        <button class="edit-btn" onclick="openEditModal(${realIdx})">編輯</button>
+        <button class="edit-btn" style="margin-left:6px;background:#FEE2E2;color:#B91C1C;border-color:#FECACA" onclick="openDeleteModal(${realIdx})">刪除</button>
+      </td>
     </tr>`;
   }).join('');
 }
@@ -109,6 +112,30 @@ function openEditModal(idx) {
 function closeEditModal() {
   document.getElementById('edit-modal').classList.remove('open');
   editIdx = null;
+}
+
+// ── Delete ──
+let deleteIdx = null;
+
+function openDeleteModal(idx) {
+  deleteIdx = idx;
+  document.getElementById('delete-modal-name').textContent = products[idx].商品名稱 || `商品編號 ${products[idx].商品編號}`;
+  document.getElementById('delete-modal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  document.getElementById('delete-modal').classList.remove('open');
+  deleteIdx = null;
+}
+
+function confirmDelete() {
+  if(deleteIdx === null) return;
+  products.splice(deleteIdx, 1);
+  saveProducts();
+  renderAdminTable();
+  renderCats();
+  closeDeleteModal();
+  showToast('已刪除', 'success');
 }
 
 function saveEdit() {
