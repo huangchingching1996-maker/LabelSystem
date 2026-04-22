@@ -44,6 +44,7 @@ async function processUploadFile(file) {
       if(!row.類別) row.類別 = '其他';
       // migrate old key name
       if('商品名稱(副)' in row) { row['葷素別'] = row['商品名稱(副)']; delete row['商品名稱(副)']; }
+      if('淨重(g)' in row) { row['容量'] = row['淨重(g)']; delete row['淨重(g)']; }
       // strip unknown fields
       Object.keys(row).forEach(k => { if(!validKeys.has(k)) delete row[k]; });
     });

@@ -7,7 +7,7 @@ const DEFAULT_SETTINGS = {
     width: 55, height: 55,
     fontSize: { name: 16, sub: 10, body: 8, barcode: 8 },
     show: {
-      葷素別: true, 條碼: true, 保存天數: true, 淨重: true,
+      葷素別: true, 條碼: true, 保存天數: true, 容量: true,
       成分: true, 過敏原: true, 保存方式: true, 有效日期: true,
       豬肉原產地: true, 營養標示: true,
     }
@@ -16,7 +16,7 @@ const DEFAULT_SETTINGS = {
     width: 35, height: 25,
     fontSize: { name: 10, sub: 8, body: 7, barcode: 7 },
     show: {
-      葷素別: true, 條碼: true, 保存天數: true, 淨重: false,
+      葷素別: true, 條碼: true, 保存天數: true, 容量: false,
       成分: false, 過敏原: false, 保存方式: true, 有效日期: true,
       豬肉原產地: true, 營養標示: false,
     }
@@ -75,7 +75,7 @@ const SHOW_FIELDS = [
   { key: '葷素別',    label: '葷素別' },
   { key: '條碼',      label: '條碼' },
   { key: '保存天數',  label: '保存天數' },
-  { key: '淨重',      label: '淨重' },
+  { key: '容量',      label: '容量' },
   { key: '成分',      label: '成分' },
   { key: '過敏原',    label: '過敏原' },
   { key: '保存方式',  label: '保存方式' },
@@ -209,7 +209,7 @@ function buildLargePreviewHTML(s, wPx, hPx) {
   const leftLines = [
     show.成分      ? `<div class="pv-line" style="font-size:${fs.body}px">成分：糯米粉、砂糖、玫瑰花</div>` : '',
     show.過敏原    ? `<div class="pv-line" style="font-size:${fs.body}px">過敏原：無</div>` : '',
-    show.淨重      ? `<div class="pv-line" style="font-size:${fs.body}px">淨重：250g</div>` : '',
+    show.容量      ? `<div class="pv-line" style="font-size:${fs.body}px">容量：250g</div>` : '',
     show.保存天數  ? `<div class="pv-line" style="font-size:${fs.body}px">保存天數：5 天</div>` : '',
     show.有效日期  ? `<div class="pv-line" style="font-size:${fs.body}px">有效日期：2026/05/01</div>` : '',
     show.保存方式  ? `<div class="pv-line" style="font-size:${fs.body}px">請放置陰涼處保存</div>` : '',

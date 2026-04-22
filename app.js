@@ -17,6 +17,7 @@ function init() {
     if(p.條碼格式 !== 'EAN8' && p.條碼格式 !== 'EAN13') { p.條碼格式 = 'EAN8'; migrated = true; }
     if('商品名稱(副)' in p) { p['葷素別'] = p['商品名稱(副)']; delete p['商品名稱(副)']; migrated = true; }
     if('現行單位' in p) { delete p['現行單位']; migrated = true; }
+    if('淨重(g)' in p) { p['容量'] = p['淨重(g)']; delete p['淨重(g)']; migrated = true; }
   });
   if(migrated) saveProducts();
   const now = new Date();
