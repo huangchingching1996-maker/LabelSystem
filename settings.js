@@ -167,12 +167,12 @@ function onShowChange(key, val) {
 }
 
 // ── Preview ──
+let previewZoom = 1.0;
+
 function updateSettingsPreview() {
   const s = labelSettings[settingsTab];
   const wPx = Math.round(s.width  * MM_TO_PX);
   const hPx = Math.round(s.height * MM_TO_PX);
-  const maxW = 380, maxH = 380;
-  const scale = Math.min(maxW / wPx, maxH / hPx, 1);
 
   const html = settingsTab === 'large'
     ? buildLargePreviewHTML(s, wPx, hPx)
@@ -180,12 +180,26 @@ function updateSettingsPreview() {
 
   document.getElementById('settings-preview-container').innerHTML = `
     <div class="preview-scale-wrap">
-      <div style="transform:scale(${scale.toFixed(3)});transform-origin:top center;display:inline-block;">
+      <div id="preview-scaled-label" style="transform:scale(${previewZoom.toFixed(2)});transform-origin:top center;display:inline-block;">
         ${html}
       </div>
     </div>
+    <div class="preview-zoom-bar">
+      <span class="preview-zoom-label">縮放</span>
+      <input type="range" min="0.3" max="3" step="0.05" value="${previewZoom}"
+        oninput="onPreviewZoom(+this.value)" class="preview-zoom-slider">
+      <span class="preview-zoom-pct" id="preview-zoom-pct">${Math.round(previewZoom*100)}%</span>
+    </div>
     <div class="preview-size-info">${s.width} × ${s.height} mm　|　${wPx} × ${hPx} px</div>
   `;
+}
+
+function onPreviewZoom(val) {
+  previewZoom = val;
+  const el = document.getElementById('preview-scaled-label');
+  if (el) el.style.transform = `scale(${val.toFixed(2)})`;
+  const pct = document.getElementById('preview-zoom-pct');
+  if (pct) pct.textContent = Math.round(val * 100) + '%';
 }
 
 // ── Large label preview ──
@@ -262,7 +276,7 @@ function buildLargePreviewHTML(s, wPx, hPx) {
 function buildSmallPreviewHTML(s, wPx, hPx) {
   const { show, fontSize: fs } = s;
 
-  const leftLines = [
+  const textLines = [
     `<div style="font-size:${fs.name}px;font-weight:700;margin-bottom:1px">玫瑰花茶糕</div>`,
     show.葷素別    ? `<div class="pv-line" style="font-size:${fs.sub}px;color:#555">純素</div>` : '',
     show.保存方式  ? `<div class="pv-line" style="font-size:${fs.body}px">請放置陰涼處保存</div>` : '',
@@ -272,23 +286,22 @@ function buildSmallPreviewHTML(s, wPx, hPx) {
   ].filter(Boolean).join('');
 
   const barcodeHTML = show.條碼 ? `
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
-      border-left:0.5px solid #ccc;padding-left:4px;width:${Math.round(wPx*0.38)}px;flex-shrink:0">
-      <svg width="${Math.round(wPx*0.34)}" height="${Math.max(8, fs.barcode*2.2)}" style="display:block">
-        ${Array.from({length: 40}, (_,i) => {
-          const on = [0,2,4,7,9,12,14,17,19,22,24,27,29,32,34,37,39].includes(i);
-          return on ? `<rect x="${i * (wPx*0.34/40)}" y="0" width="${wPx*0.34/40 - 0.3}" height="${Math.max(8, fs.barcode*2.2)}" fill="#000"/>` : '';
+    <div style="border-top:0.5px solid #ccc;padding-top:2px;text-align:center;flex-shrink:0">
+      <svg width="${Math.round(wPx * 0.85)}" height="${Math.max(8, fs.barcode * 2.2)}" style="display:block;margin:0 auto">
+        ${Array.from({length: 50}, (_,i) => {
+          const on = [0,2,4,7,9,12,14,17,19,22,24,27,29,32,34,37,39,42,44,47,49].includes(i);
+          return on ? `<rect x="${i*(wPx*0.85/50)}" y="0" width="${wPx*0.85/50 - 0.4}" height="${Math.max(8, fs.barcode*2.2)}" fill="#000"/>` : '';
         }).join('')}
       </svg>
-      <div style="font-size:${fs.barcode}px;font-family:'DM Mono',monospace;letter-spacing:1px;margin-top:1px;text-align:center">00303019</div>
+      <div style="font-size:${fs.barcode}px;font-family:'DM Mono',monospace;letter-spacing:1.5px;margin-top:1px">0 0 3 0 3 0 1 9</div>
     </div>
   ` : '';
 
   return `
     <div style="width:${wPx}px;height:${hPx}px;border:1px solid #aaa;background:#fff;
       font-family:'Noto Sans TC',sans-serif;padding:3px;box-sizing:border-box;
-      display:flex;gap:0;overflow:hidden;">
-      <div style="flex:1;overflow:hidden">${leftLines}</div>
+      display:flex;flex-direction:column;overflow:hidden;">
+      <div style="flex:1;overflow:hidden">${textLines}</div>
       ${barcodeHTML}
     </div>
   `;
