@@ -90,6 +90,22 @@ function _openModalWith(title, p) {
         <label class="field-label">${f.label}</label>
         <div class="field-input" style="background:var(--bg);color:var(--text-muted);cursor:default">${p[f.key] ?? ''}</div>
       </div>`;
+    if(f.type === 'allergens') {
+      const cur = p[f.key] || '';
+      const boxes = f.options.map(o => {
+        const checked = cur.includes(o) ? 'checked' : '';
+        return `<label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;white-space:nowrap">
+          <input type="checkbox" data-allergen="${o}" ${checked}> ${o}
+        </label>`;
+      }).join('');
+      return `<div class="field-group full">
+        <label class="field-label">${f.label}</label>
+        <div data-key="過敏原" data-type="allergens"
+          style="display:flex;flex-wrap:wrap;gap:8px 16px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)">
+          ${boxes}
+        </div>
+      </div>`;
+    }
     const val = p[f.key] != null ? p[f.key] : '';
     const fullClass = f.full ? 'full' : '';
     if(f.type === 'toggle') return `
@@ -166,6 +182,11 @@ function saveEdit() {
     if(!field) return;
     if(field.type === 'toggle') {
       target[key] = el.checked ? '是' : '否';
+      return;
+    }
+    if(field.type === 'allergens') {
+      const checked = [...el.querySelectorAll('[data-allergen]:checked')].map(c => c.dataset.allergen);
+      target[key] = checked.length ? checked.join('、') : '無';
       return;
     }
     const raw = el.value.trim();
