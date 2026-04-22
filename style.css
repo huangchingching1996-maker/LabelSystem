@@ -1094,7 +1094,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 12px 32px;
-  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
 }
