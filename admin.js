@@ -135,7 +135,7 @@ function _openModalWith(title, p) {
     return `
       <div class="field-group ${fullClass}">
         <label class="field-label">${f.label}</label>
-        <input class="field-input" type="${f.type}" data-key="${f.key}" value="${val}">
+        <input class="field-input" type="${f.type}" data-key="${f.key}" value="${val}" ${f.type==='number'?'min="0"':''}>
       </div>`;
   }).join('');
 
