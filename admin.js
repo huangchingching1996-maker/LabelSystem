@@ -173,6 +173,17 @@ function confirmDelete() {
 
 function saveEdit() {
   if(editIdx === null) return;
+
+  // 必填驗證
+  const missing = [];
+  FIELDS.filter(f => f.required).forEach(f => {
+    const el = document.querySelector(`#edit-form-grid [data-key="${f.key}"]`);
+    if(!el) return;
+    const val = (el.value || '').trim();
+    if(!val) missing.push(f.label.replace(' *',''));
+  });
+  if(missing.length) { showToast(`請填寫：${missing.join('、')}`, 'error'); return; }
+
   const isAdd = editIdx === -1;
   const target = isAdd ? {} : products[editIdx];
   const inputs = document.querySelectorAll('#edit-form-grid [data-key]');
