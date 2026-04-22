@@ -789,7 +789,7 @@ body {
 
 /* Right column — nutrition */
 .ll-right {
-  width: 113px;
+  width: 108px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

@@ -9,7 +9,7 @@ let pendingUploadData = null;
 // ── Init ──
 function init() {
   const ver = localStorage.getItem('nls_version');
-  if(ver !== '4') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','4'); }
+  if(ver !== '5') { localStorage.removeItem(PRODUCTS_KEY); localStorage.setItem('nls_version','5'); }
   const saved = localStorage.getItem(PRODUCTS_KEY);
   products = saved ? JSON.parse(saved) : BUILTIN;
   let migrated = false;

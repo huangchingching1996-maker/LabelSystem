@@ -59,6 +59,7 @@ function saveSettings() {
 function resetSettings() {
   if (!confirm('確定要重設為預設值？')) return;
   labelSettings[settingsTab] = JSON.parse(JSON.stringify(DEFAULT_SETTINGS[settingsTab]));
+  autoSave();
   renderSettingsForm();
   updateSettingsPreview();
 }
@@ -209,12 +210,17 @@ function renderSettingsForm() {
   `;
 }
 
+function autoSave() {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(labelSettings));
+}
+
 function moveLargeLeft(key, dir) {
   const order = labelSettings.large.leftOrder;
   const idx = order.indexOf(key);
   const newIdx = idx + dir;
   if (newIdx < 0 || newIdx >= order.length) return;
   [order[idx], order[newIdx]] = [order[newIdx], order[idx]];
+  autoSave();
   renderSettingsForm();
   updateSettingsPreview();
 }
@@ -222,17 +228,20 @@ function moveLargeLeft(key, dir) {
 function onSettingChange(key, val) {
   if (!val || val <= 0) return;
   labelSettings[settingsTab][key] = val;
+  autoSave();
   updateSettingsPreview();
 }
 
 function onFontChange(key, val) {
   if (!val || val <= 0) return;
   labelSettings[settingsTab].fontSize[key] = val;
+  autoSave();
   updateSettingsPreview();
 }
 
 function onShowChange(key, val) {
   labelSettings[settingsTab].show[key] = val;
+  autoSave();
   updateSettingsPreview();
 }
 
@@ -281,13 +290,13 @@ function buildLargePreviewHTML(s, wPx, hPx) {
     '過敏原':   `過敏原：無`,
     '容量':     `容量：250 公克`,
     '保存天數': `保存期限：5 天`,
-    '有效日期': `有效日期：2026/05/01`,
+    '有效日期': `有效日期:2026/05/01`,
     '保存方式': `請放置陰涼處保存`,
     '豬肉原產地': `豬肉原料原產地：臺灣`,
   };
   const leftLines = s.leftOrder
     .filter(key => show[key])
-    .map(key => `<div class="pv-line" style="font-size:${fs.body}px">${LEFT_SAMPLE[key]||key}</div>`)
+    .map(key => `<div class="pv-line" style="font-size:${fs.body}px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${LEFT_SAMPLE[key]||key}</div>`)
     .join('');
 
   const ntHTML = show.營養標示 ? `
