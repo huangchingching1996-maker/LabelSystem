@@ -53,7 +53,10 @@ function setPaperStyle() {
   let s = document.getElementById('_page_style');
   if(!s) { s = document.createElement('style'); s.id = '_page_style'; document.head.appendChild(s); }
   const orient = (selectedSize === 'small') ? ' landscape' : '';
-  s.textContent = `@media print { @page { size: ${mm.w}mm ${mm.h}mm${orient}; margin: 0; } }`;
+  const topBleed = (selectedSize === 'large') ? 1.5 : 0;
+  const pageH = mm.h + topBleed;
+  const marginTop = topBleed ? `${topBleed}mm` : '0';
+  s.textContent = `@media print { @page { size: ${mm.w}mm ${pageH}mm${orient}; margin: ${marginTop} 0 0 0; } }`;
 }
 
 function doPrint() {
