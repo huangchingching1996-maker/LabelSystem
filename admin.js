@@ -80,6 +80,7 @@ function _openModalWith(title, p) {
       <div class="field-group ${f.full ? 'full' : ''}">
         <label class="field-label">${f.label}</label>
         <div class="field-input" style="background:var(--bg);color:var(--text-muted);cursor:default">${p[f.key] ?? ''}</div>
+        <input type="hidden" data-key="${f.key}" value="${p[f.key] ?? ''}">
       </div>`;
     if(f.type === 'allergens') {
       const cur = p[f.key] || '';
@@ -193,6 +194,10 @@ function saveEdit() {
     }
     let raw = el.value.trim();
     if(field.key === '成分') raw = raw.replace(/，/g, ',');
+    if(field.type === 'readonly') {
+      target[key] = raw === '' ? null : (isNaN(+raw) ? raw : +raw);
+      return;
+    }
     if(field.type === 'number') {
       target[key] = raw === '' ? null : parseFloat(raw);
     } else {
