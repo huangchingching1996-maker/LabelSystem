@@ -122,7 +122,7 @@ function buildLabelHTML(product, size) {
     </div>
     <div class="ll-body">
       <div class="ll-left">
-        ${p.成分 ? `<div class="ll-row"><span class="ll-label">成分:</span><span class="ll-val">${p.成分}</span></div>` : ''}
+        ${p.成分 ? `<div class="ll-row" style="flex-wrap:nowrap;align-items:flex-start"><span class="ll-label" style="flex-shrink:0">成分:</span><span class="ll-val">${p.成分}</span></div>` : ''}
         ${p['容量'] ? `<div class="ll-row"><span class="ll-label">容量:</span><span class="ll-val">${p['容量']} 公克</span></div>` : ''}
         ${p.過敏原 ? `<div class="ll-row"><span class="ll-label">過敏原:</span><span class="ll-val">${p.過敏原==='無'?'無':'本產品含有'+p.過敏原.replace(/[、,，]/g,',')}</span></div>` : ''}
         <div class="ll-row"><span class="ll-label">保存期限:</span><span class="ll-val">${p.保存天數||''}&nbsp;&nbsp;天</span></div>
