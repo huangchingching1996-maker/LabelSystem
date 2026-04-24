@@ -115,7 +115,7 @@ function buildLabelHTML(product, size) {
 
   const notes = p.豬肉原產地 === '是' ? '豬肉原料原產地:臺灣' : '';
 
-  return `<div class="label-large" style="width:208px;height:208px;padding:8px 4px 4px 4px;">
+  return `<div class="label-large" style="width:208px;height:208px;padding:8px 4px 0 4px;">
     <div class="ll-header">
       <div class="ll-name">${p.商品名稱}</div>
       <div class="ll-sub">${p['葷素別']||''}</div>
