@@ -767,8 +767,8 @@ body {
   align-items: baseline;
   margin-bottom: 2px;
 }
-.ll-name { font-size: 14px; font-weight: 400; color: #000; line-height: 1.2; }
-.ll-sub  { font-size: 11px; color: #000; font-weight: 400; }
+.ll-name { font-size: 13px; font-weight: 400; color: #000; line-height: 1.2; }
+.ll-sub  { font-size: 10px; color: #000; font-weight: 400; }
 .ll-body { display: flex; gap: 3px; flex: 1; min-height: 0; overflow: hidden; }
 
 /* Left column */
@@ -776,7 +776,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: 7.5px;
+  font-size: 8px;
   color: #000;
   line-height: 1.25;
   min-width: 0;
